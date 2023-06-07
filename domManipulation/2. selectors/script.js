@@ -46,11 +46,11 @@ function randomColorParagraphs () {
         var paragraph = paragraphs[i];
 
         if(!paragraph.classList.length) {
-            var red = Math.floor(Math.random()*256);
+            var red = Math.floor(Math.random()*256); // const array = [Math.floor(Math.random()*256), Math.floor(Math.random()*256), Math.floor(Math.random()*256)]
             var green = Math.floor(Math.random()*256);
             var blue = Math.floor(Math.random()*256);
 
-            paragraph.style.color = `rgb(${red}, ${green}, ${blue})`;
+            paragraph.style.color = `rgb(${red}, ${green}, ${blue})`; // paragraph.style.color = `rgb(${array[0]}, ${array[1]}, ${array[2]})`
         }
     }
 }
