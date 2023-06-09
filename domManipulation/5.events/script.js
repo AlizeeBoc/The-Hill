@@ -20,8 +20,10 @@ const actionSquare = (event) => {
     const container = document.querySelector(".displayedsquare-wrapper");
     const newDiv = document.createElement("div");
     container.appendChild(newDiv);
-    newDiv.classList.value=event.target.classList.value;
+    newDiv.classList.value=event.target.classList.value  /* + " newSquare" */ // probleme de répétition de la classe a fixer ultérieurement
+    newDiv.classList.add("newSquare")
     newDiv.addEventListener('click', actionSquare);
+    
 
     const actionLog = document.querySelector("main ul");
     const newLi = document.createElement("li");
@@ -30,6 +32,7 @@ const actionSquare = (event) => {
     newLi.innerText = "["+ getElapsedTime() + "] " + "Created a new " + event.target.classList[1] + " square" ;
     
 }
+
 
 const arrayOfSquares = document.querySelectorAll(".actionsquare")
 for (let square of arrayOfSquares) {
@@ -77,6 +80,29 @@ document.addEventListener("keydown", (e) => {
         while (document.querySelectorAll("li").length > 0) {
             document.querySelector("li").remove();
         }
+    }
+})
+
+
+document.addEventListener("keydown", (e) => {
+    if (e.code == "KeyS") {
+        while (document.querySelectorAll(".newSquare").length > 0) {
+            document.querySelector(".newSquare").remove();
+        }
+    }
+})
+
+/* let newSquares = document.querySelectorAll(".newSquare")
+newSquares.addEventListener("click", (e) => {
+        alert(getElapsedTime())
+    }
+)
+ */
+
+document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("newSquare")) {
+        let color = e.target.className.split(" ")[1]
+        alert(color)    
     }
 })
 
