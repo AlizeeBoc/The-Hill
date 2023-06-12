@@ -46,7 +46,7 @@ for(let i=0; i<array.length; i++) {
     let colorRandom = [Math.floor(Math.random()*256), Math.floor(Math.random()*256), Math.floor(Math.random()*256)];
     sec.style = `background-color: rgb(${colorRandom})`;
 
-    if(colorRandom[0]<128) {
+    if(colorRandom[0]<128) {                    //regarder le code des autres pour voir comment ils ont "mieux" fait
         paragraphs.style.color = "white";
     }
     else {
