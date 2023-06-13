@@ -1,9 +1,9 @@
 //array = []
-//createElement pour l'html
-//append (! ordre)
-//style
-//function
-//forEach
+//1.0. createElement pour l'html
+//1. append (! ordre) ---> 2. innerText
+//3. style
+//4. function
+//5. forEach
 
 const cocktails = [
     {
@@ -92,53 +92,59 @@ const cocktails = [
 ]
 
 // console.log(cocktails)
+let createCard = (apero) => {                               // 4. On crée notre fonction. On remplace les "cocktails[o]"" par "apero" dans tout notre code.
+    const container = document.getElementById("container")
+
+    //one card
+    const myCard = document.createElement("div")            // 1.0. On créé la card
+    const topOfCard = document.createElement("div")
+    const picture = document.createElement("img")           // 1.0. Divisée en deux parties : Top (illu) /Bottom (texte)
+    const bottomOfCard = document.createElement("div")
+    const headerOfBottom = document.createElement("div")    // 1.0. Bottom : header qui contient en h1 le nom et le prix du cocktail (flex))
+    const titleName = document.createElement("h1")
+    const titlePrice = document.createElement("h1")
+    const contentOfBottom = document.createElement("div")   // 1.0. Bottom : contenu qui contient en h2 le type et en <p> la compo du cocktail
+    const subtitle = document.createElement("h2")
+    const paragraph = document.createElement("p")
+
+    //Content of bottom
+    subtitle.innerText=apero.type                                          /* 2.1. subtitle.innerText=cocktails[0].type */
+    contentOfBottom.append(subtitle)                        // 1.1. On ajoute le content au bottom (!!ordre avec append())
+    paragraph.innerText=apero.ingredients                                  /* 2.2. paragraph.innerText=cocktails[0].ingredients  */         
+    contentOfBottom.append(paragraph)
+
+    //TitleName/Price
+    titleName.innerText = apero.name                                        /* 2.3. titleName.innerText = cocktails[0].name */
+    headerOfBottom.append(titleName)                        // 1.2 Le nom (titleName) et prix (titlePrice) au header
+    titlePrice.innerText = apero.price                                      /* 2.4. titlePrice.innerText = cocktails[0].price  */  
+    headerOfBottom.append(titlePrice)
+
+    //Bottom
+    headerOfBottom.style.display = "flex"
+    headerOfBottom.style.justifyContent ="space-between"
+    bottomOfCard.append(headerOfBottom)                     // 1.3. Le header et le contenu au bas de carte
+    bottomOfCard.append(contentOfBottom)
+
+    //Top
+    picture.src = `url(${apero.picture})`   // ???????????                  /* 2.5. picture.src = `url(${cocktails[0].picture})` */
+    topOfCard.append(picture)
+
+    //myCard
+    myCard.style.border = "solid 1px black"
+    myCard.style.width = "150px"
+    myCard.style.padding = "10px"
+    myCard.append(topOfCard)                                // 1.4. Le top et le bottom a notre carte
+    myCard.append(bottomOfCard)
+
+    //container
+    container.style.display = "flex"
+    container.style.flexWrap = "wrap"
+    container.append(myCard)                                // 1.5. La carte au container
+
+}
+ cocktails.forEach((apero) => {                             // 5. forEach sur le paramètre de notre fonction
+    createCard(apero)
+ });
 
 
-const container = document.getElementById("container")
 
-//one card
-const myCard = document.createElement("div")            // On créé la card
-const topOfCard = document.createElement("div")
-const picture = document.createElement("img")         //Divisée en deux parties : Top (illu) /Bottom (texte)
-const bottomOfCard = document.createElement("div")
-const headerOfBottom = document.createElement("div")    // Bottom : header qui contient en h1 le nom et le prix du cocktail (flex))
-const titleName = document.createElement("h1")
-const titlePrice = document.createElement("h1")
-const contentOfBottom = document.createElement("div")   //Bottom : contenu qui contient en h2 le type et en <p> la compo du cocktail
-const subtitle = document.createElement("h2")
-const paragraph = document.createElement("p")
-
-//Content of bottom
-subtitle.innerText=cocktails[0].type
-contentOfBottom.append(subtitle)                        // 1.1. On ajoute le content au bottom (!!ordre avec append())
-paragraph.innerText=cocktails[0].ingredients          
-contentOfBottom.append(paragraph)
-
-//TitleName/Price
-titleName.innerText = cocktails[0].name
-headerOfBottom.append(titleName)                        // 1.2 Le nom (titleName) et prix (titlePrice) au header
-titlePrice.innerText = cocktails[0].price              
-headerOfBottom.append(titlePrice)
-
-//Bottom
-headerOfBottom.style.display = "flex"
-headerOfBottom.style.justifyContent ="space-between"
-bottomOfCard.append(headerOfBottom)                     // 1.3. Le header et le contenu au bas de carte
-bottomOfCard.append(contentOfBottom)
-
-//Top
-picture.src = `url(${cocktails[0].picture})`   // ???????????
-topOfCard.append(picture)
-
-//myCard
-myCard.style.width = "150px"
-myCard.style.padding = "10px"
-myCard.append(topOfCard)                                // 1.4. Le top et le bottom a notre carte
-myCard.append(bottomOfCard)
-
-container.append(myCard)                                // 1.5. La carte au container
-
-
-//2. style my div
-myCard.style.border = "solid 1px black"
- 
