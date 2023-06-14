@@ -5,6 +5,19 @@
 //4. function
 //5. forEach
 
+/* var cssId = 'myCss'; 
+if (!document.getElementById(cssId))
+{
+    var head  = document.getElementsByTagName('head')[0];
+    var link  = document.createElement('link');
+    link.id   = cssId;
+    link.rel  = 'stylesheet';
+    link.type = 'text/css';
+    link.href = 'http://website.example/css/stylesheet.css';
+    link.media = 'all';
+    head.appendChild(link);
+}
+ */
 
 const cocktails = [
     {
@@ -60,7 +73,7 @@ const cocktails = [
         picture : "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fboiremixologie.com%2Ffiles%2Fmedias%2FBACARDI-Reserva-Ocho-Ocho-Old-Fashioned.jpg&f=1&nofb=1&ipt=1c4cac332b82fcaee1aa0cdc980a7d2b7621f2aedd60b6975dadfcb1d5990410&ipo=images",
         type : "Silky, Floral, Low Alcohol",
         name : "Galaxy Punch",
-        price : "11 euros",
+        price : "11 e",
         ingredients: "Bombay Sapphire Gin, Valdespino Vermouth, Elderflower, Hibiscus, Lapsang Souchong Smoked Tea, Lime, Clarified With Soy Milk",
     },
 
@@ -85,12 +98,15 @@ const cocktails = [
     {
         picture : "https://www.leshardis.com/wp-content/uploads/2020/09/ADRIATICO_AMARETTO_SOUR_Roasted_.jpg",
         type : "Sweet, Spicy, Dr Pepper-like",
-        name : "Charles Pepper M.D.",
+        name : "Charles Pepper",
         price  : "14 e",
         ingredients : "Adriatico Amaretto, Plantation OFTD Overproof Rum, Cherry Heering, Verjuice, Vanilla Bitters, Peroni Italian Lager",
         
     },
 ]
+
+
+
 
 // console.log(cocktails)
 let createCard = (apero) => {                               // 4. On crée notre fonction. On remplace les "cocktails[o]"" par "apero" dans tout notre code.
@@ -114,24 +130,25 @@ let createCard = (apero) => {                               // 4. On crée notre
     subtitle.style.color="#9c856c"
     subtitle.style.fontStyle = "italic" 
     subtitle.style.margin = "0px" 
-    subtitle.style.fontFamily = "monospace"                                      /* 2.1. subtitle.innerText=cocktails[0].type */
+    subtitle.style.fontFamily = "'Playfair Display', serif'"                                      /* 2.1. subtitle.innerText=cocktails[0].type */
     contentOfBottom.append(subtitle)                        // 1.1. On ajoute le content au bottom (!!ordre avec append())
     paragraph.innerText=apero.ingredients                                  /* 2.2. paragraph.innerText=cocktails[0].ingredients  */         
     paragraph.style.color="white" 
     paragraph.style.fontSize = "15px"
-    paragraph.style.fontFamily = "monospace" 
+    paragraph.style.lineHeight = "1.3"
+    paragraph.style.fontFamily = "'Playfair Display', serif'" 
     contentOfBottom.append(paragraph)
 
     //TitleName/Price
     titleName.innerText = apero.name  
     titleName.style.fontSize = "21px"
     titleName.style.color="white"  
-    titleName.style.fontFamily = "monospace"                                      /* 2.3. titleName.innerText = cocktails[0].name */
+    titleName.style.fontFamily = "'Playfair Display', serif'"                                      /* 2.3. titleName.innerText = cocktails[0].name */
     headerOfBottom.append(titleName)                        // 1.2 Le nom (titleName) et prix (titlePrice) au header
     titlePrice.innerText = apero.price
     titlePrice.style.fontSize = "17px"                                      /* 2.4. titlePrice.innerText = cocktails[0].price  */  
     titlePrice.style.color="white" 
-    titlePrice.style.fontFamily = "monospace" 
+    titlePrice.style.fontFamily = "'Playfair Display', serif'" 
     headerOfBottom.append(titlePrice)
 
     //Bottom
@@ -158,6 +175,7 @@ let createCard = (apero) => {                               // 4. On crée notre
     topOfCard.style.backgroundSize = "cover"
     topOfCard.style.backgroundRepeat = "no-repeat"
     myCard.append(topOfCard)                                // 1.4. Le top et le bottom a notre carte
+    bottomOfCard.style.padding = "0px 15px"
     myCard.append(bottomOfCard)
 
     //container
