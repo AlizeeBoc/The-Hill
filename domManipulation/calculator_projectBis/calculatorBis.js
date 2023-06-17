@@ -28,7 +28,7 @@ top_Screen.style.padding = "15px";
 top_Screen.style.margin = "10px 0px";
 top_Screen.style.textAlign = "right";
 top_Screen.style.height = "65px";
-previousOperations.textContent = "blabla";
+previousOperations.textContent = "";
 myCalculator.appendChild(top_Screen);
 myCalculator.appendChild(bottom);
 myCalculator.style.width = "630px";
@@ -44,6 +44,11 @@ previousOperations.style.padding = "40px 10px";
 previousOperations.style.borderRadius = "10px";
 previousOperations.style.marginLeft = "10px";
 previousOperations.style.height = "auto";
+previousOperations.style.width = "140px";
+previousOperations.innerText = "";
+previousOperations.style.overflowWrap = "break-word";
+previousOperations.style.fontSize = "25px";
+previousOperations.setAttribute("id", "aside");
 container.appendChild(previousOperations);
 container.style.display = "flex";
 container.style.justifyContent = "center";
@@ -124,6 +129,8 @@ function computeResult(input) {
 //2.1. push les inputs dans un array vide --> console.log (myInputs) pour visualiser l'array
 //2.2. déclare myInput.join("") pour ensuite les afficher sans la ","
 //2.3. if, else if, else
+let aside_output = document.getElementById("aside");
+let flag = false;
 
 let calculate = (button) => {
   const input = button.textContent;
@@ -134,12 +141,23 @@ let calculate = (button) => {
   } else if (input === "=") {
     operationScreen.append(outputScreen.innerText);
     outputScreen.innerText = computeResult(accumulativeInputs);
+    aside_output.append(operationScreen.innerText);
+    flag = true;
   } /* else if (input === "%") {
     outputScreen.innerText = percentages(accumulativeInputs);
   }  */ else {
-    myInputs.push(input); //console.log(myInputs) pour visualiser l'array
-    accumulativeInputs = myInputs.join(""); //console.log(accumulativeInputs) pour visualiser les opérations
-    outputScreen.innerText = accumulativeInputs;
+    if (flag === false) {
+      myInputs.push(input); //console.log(myInputs) pour visualiser l'array
+      accumulativeInputs = myInputs.join(""); //console.log(accumulativeInputs) pour visualiser les opérations
+      outputScreen.innerText = accumulativeInputs;
+    } else {
+      myInputs = [];
+      operationScreen.innerText = "";
+      outputScreen.innerText = button.innerText;
+      myInputs.push(input);
+      aside_output.insertAdjacentHTML("beforeend", "<br>");
+      flag = false;
+    }
   }
 };
 
@@ -149,6 +167,3 @@ buttons.forEach((button) => {
   //forEach ne fonctionnerait que sur des élmts html????
   button.addEventListener("click", () => calculate(button)); //soit {}, soit fct directement
 });
-
-let rigth_screen = document.getElementsByTagName("div:nth-child[2]");
-rigth_screen.style.border = "2px solid black";
