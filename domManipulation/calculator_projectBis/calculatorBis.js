@@ -13,6 +13,7 @@ let top_Screen = document.createElement("div");
 let operationScreen = document.createElement("div");
 let outputScreen = document.createElement("div");
 let bottom = document.createElement("div");
+let previousOperations = document.createElement("div");
 
 outputScreen.innerText = "";
 outputScreen.style.fontSize = "35px";
@@ -27,17 +28,26 @@ top_Screen.style.padding = "15px";
 top_Screen.style.margin = "10px 0px";
 top_Screen.style.textAlign = "right";
 top_Screen.style.height = "65px";
+previousOperations.textContent = "blabla";
 myCalculator.appendChild(top_Screen);
 myCalculator.appendChild(bottom);
 myCalculator.style.width = "630px";
 myCalculator.style.height = "fit-content";
 myCalculator.style.margin = "auto";
-myCalculator.style.marginTop = "120px";
+myCalculator.style.margin = "0px";
 myCalculator.style.border = "2px solid #d3d3d3";
 myCalculator.style.padding = "20px";
 myCalculator.style.borderRadius = "10px";
 container.appendChild(myCalculator);
-
+previousOperations.style.border = "2px solid #d3d3d3";
+previousOperations.style.padding = "40px 10px";
+previousOperations.style.borderRadius = "10px";
+previousOperations.style.marginLeft = "10px";
+previousOperations.style.height = "auto";
+container.appendChild(previousOperations);
+container.style.display = "flex";
+container.style.justifyContent = "center";
+container.style.marginTop = "120px";
 //création des boutons
 
 const myKeys = [
@@ -139,3 +149,6 @@ buttons.forEach((button) => {
   //forEach ne fonctionnerait que sur des élmts html????
   button.addEventListener("click", () => calculate(button)); //soit {}, soit fct directement
 });
+
+let rigth_screen = document.getElementsByTagName("div:nth-child[2]");
+rigth_screen.style.border = "2px solid black";
