@@ -155,7 +155,7 @@ let calculate = (button) => {
       operationScreen.innerText = "";
       outputScreen.innerText = button.innerText;
       myInputs.push(input);
-      aside_output.insertAdjacentHTML("beforeend", "<br>");
+      aside_output.insertAdjacentHTML("beforeend", "<br>"); //le \n permet de passer a la ligne aussi. trouver comment l'insérer ici
       flag = false;
     }
   }
