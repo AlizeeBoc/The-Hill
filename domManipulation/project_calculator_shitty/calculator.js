@@ -51,6 +51,7 @@ const myKeys = [
   ".",
   "=",
 ];
+
 var i = 0;
 
 while (i < 18) {
