@@ -39,6 +39,7 @@ const meals = [
   },
 ];
 
+// Create cards
 let createCard = (food) => {
   const container = document.getElementById("mealsContainer");
   const oneMealCard = document.createElement("div");
@@ -78,6 +79,7 @@ meals.forEach((food) => {
   createCard(food);
 });
 
+//Buttons of categories ("all", "starters", "desserts", filter)
 let hideDesserts = false;
 let hideStarters = false;
 
@@ -130,6 +132,13 @@ const myCategories = document.querySelectorAll(".categories");
 myCategories.forEach((categorie) => {
   categorie.addEventListener("click", hide);
 });
+
+//darkmode
+
+const darkmode = () => {
+  const body = document.body;
+  body.classList.toggle("darkmode");
+};
 
 ////////////////////////////// difficultés rencontrées //////////////////////////
 /* 

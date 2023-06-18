@@ -121,6 +121,12 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
+.darkmode {
+  background-color: black;
+  color: white;
+}
+
+/* aside */
 aside {
   margin: 20px 10px;
 }
