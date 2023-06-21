@@ -24,7 +24,7 @@
             <h1>Organic</h1>
           </div>
           <label class="switch">
-            <input type="checkbox" onclick="darkmode()"/>
+            <input type="checkbox" onclick="darkmode()" />
             <span class="slider round"></span>
           </label>
         </header>
@@ -32,12 +32,26 @@
           <button id="all" class="categories">All</button>
           <button id="starters" class="categories">Starters</button>
           <button id="desserts" class="categories">Desserts</button>
-          <button id="filter" class="categories">
+                    <!-- <label for="diet">Diet</label> -->
+          <!-- <input type="submit" value="submit" /> -->
+          </form>
+          <!--           <button id="filter" class="categories">
+          <i class="fa-regular fa-filter"></i>
+          </button> -->
+          <!-- <button id="filter" class="categories">
             <i class="fa-regular fa-filter"></i>
-          </button>
+          </button> -->
         </div>
-        <div id="options">
-          <h2>Choose an option</h2>
+        <div>
+          <div id="options">
+            <h2>Select an option</h2>
+            <select name="diets" id="diets">
+              <option value="diets">--Diet --</option>
+              <option value="glutenFree">Gluten free</option>
+              <option value="lactoseFree">Lactose free</option>
+              <option value="vegan">Vegan</option>
+            </select>
+          </div>
           <div id="mealsContainer"></div>
         </div>
       </main>
@@ -49,9 +63,10 @@
         <div id="order">
           <div id="myOrder">
             <h3>My Order</h3>
-            <p id="pencil"><i class="fa-regular fa-pencil"></i></p>
+            <p id="pencil"><i class="fas fa-pencil"></i></p>
           </div>
           <div id="recap"></div>
+          <p classe="line"></p>
           <div id="total">Total amount :</div>
           <button id="checkout">Checkout</button>
         </div>

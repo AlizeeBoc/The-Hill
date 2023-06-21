@@ -3,66 +3,94 @@ const meals = [
     title: "Houmous",
     description:
       "Pois chiches moulus avec crème de sésame (ou huile de sésame) et citron",
-    price: "7.00",
+    price: "7.00          ",
     picture: "pic/starters/houmous.png",
+    gluten: "no",
+    lactose: "no",
+    vegan: "yes",
   },
   {
     title: "Moutabal",
     description: "Caviar d'aubergines grillées à la crème de sésame",
-    price: "8.00",
+    price: "8.00          ",
     picture: "pic/starters/moutabal.png",
+    gluten: "no",
+    lactose: "no",
+    vegan: "yes",
   },
   {
     title: "Tabouleh",
     description: "Salade typique libanaise à base de persil",
-    price: "8.00",
+    price: "8.00          ",
     picture: "pic/starters/tabouleh.png",
+    gluten: "yes",
+    lactose: "no",
+    vegan: "yes",
   },
   {
     title: "Aish El Saraya",
     description:
       "À base de biscotte non salé, du lait concentré et sirop de caramel du chef",
-    price: "4.50",
+    price: "4.50          ",
     picture: "pic/dessert/aishelsaraya.png",
+    gluten: "yes",
+    lactose: "yes",
+    vegan: "no",
   },
   {
     title: "Baklawa",
-    description: "À base de semoule, de noix de coco et amandes",
-    price: "2.50",
+    description: "À base de pistaches. Servi par pièce",
+    price: "2.50          ",
     picture: "pic/dessert/baklawa.png",
+    gluten: "yes",
+    lactose: "no",
+    vegan: "no",
   },
   {
     title: "Namoura",
-    description: "Salade typique libanaise à base de persil",
-    price: "2.50",
+    description: "À base de semoule, de noix de coco et amandes",
+    price: "2.50          ",
     picture: "pic/dessert/namoura.png",
+    gluten: "yes",
+    lactose: "no",
+    vegan: "no",
   },
 ];
 
 // Create cards
 let createCard = (food) => {
   const container = document.getElementById("mealsContainer");
-  const oneMealCard = document.createElement("div");
+  const oneMealCard = document.createElement("button");
   const textCard = document.createElement("div");
   const mealTitle = document.createElement("h3");
 
   const mealDescription = document.createElement("p");
 
+  const buy = document.createElement("div");
   const price = document.createElement("p");
-  const illu = document.createElement("div");
+  const basket = document.createElement("button");
+  const illuBox = document.createElement("div");
+  const illu = document.createElement("img");
 
   mealTitle.innerText = food.title;
   textCard.append(mealTitle);
   mealDescription.innerText = food.description;
   textCard.append(mealDescription);
   price.innerText = food.price;
-  textCard.append(price);
+  basket.setAttribute("class", "fas fa-basket-shopping");
+  basket.setAttribute("id", "basket");
+  buy.setAttribute("id", "buy");
+  buy.append(price);
+  buy.append(basket);
+  textCard.append(buy);
   textCard.setAttribute("id", "text");
   oneMealCard.append(textCard);
-  illu.style.backgroundImage = `url(${food.picture})`;
-  illu.style.backgroundSize = "cover";
-  illu.setAttribute("id", "images");
-  oneMealCard.append(illu);
+  // illu.style.backgroundImage = `url(${food.picture})`;
+  // illu.style.backgroundSize = "cover";
+  illu.src = food.picture;
+  illuBox.append(illu);
+  illuBox.setAttribute("id", "images");
+  oneMealCard.append(illuBox);
   oneMealCard.setAttribute("id", "container_flex");
 
   const index = Array.from(container.children).length;
@@ -80,6 +108,7 @@ meals.forEach((food) => {
 });
 
 //Buttons of categories ("all", "starters", "desserts", filter)
+//callBack de l'eventListener
 let hideDesserts = false;
 let hideStarters = false;
 
@@ -127,18 +156,85 @@ const hide = (e) => {
   }
 };
 
-//quand click sur une catégorie, les autres sont cachées
+//eventListener for "show/hide categories"
 const myCategories = document.querySelectorAll(".categories");
 myCategories.forEach((categorie) => {
   categorie.addEventListener("click", hide);
 });
 
-//darkmode
+//switch to darkmode
 
 const darkmode = () => {
   const body = document.body;
   body.classList.toggle("darkmode");
+  const container = document.querySelectorAll("#container_flex");
+  for (let i = 0; i < container.length; i++) {
+    container[i].classList.toggle("darkmode");
+  }
 };
+
+//Calcul du total
+let pricesOfMeal = [];
+let sum = 0;
+
+const registerOrder = (basket) => {
+  const recap = document.getElementById("recap");
+  const container = basket.target.closest("#container_flex");
+  const buy = container.querySelector("#buy");
+
+  const title = container.querySelector("h3");
+  const price = buy.querySelector("p");
+  recap.innerText += `${title.innerText} - ${price.innerText}\n`;
+
+  pricesOfMeal.push(parseFloat(price.innerText));
+  let total = document.getElementById("total");
+  for (let i = 0; i < pricesOfMeal.length; i++) {
+    sum += pricesOfMeal[i];
+    total.innerText = sum.toFixed(2);
+  }
+};
+
+const baskets = document.querySelectorAll("#basket");
+baskets.forEach((basket) => {
+  basket.addEventListener("click", registerOrder);
+});
+
+
+////// you are lost somexhere here ////////////
+// filtres diets
+let mealsCategories = object.keys(food);
+mealsCategories.forEach(element => {
+  
+});
+
+if (e.target === "Gluten Free") {
+
+} else if (e.target === "Lactose Free") {
+
+} else {
+
+}
+
+
+/* const gluten = Object.keys(meals)
+console.log(gluten) */
+/*   .filter((key) => key.includes("gluten"))
+  .reduce((obj, key) => {
+    return Object.assign(obj, {
+      [key]: meals[key],
+    });
+  }, {});
+
+gluten.style.display = "none";
+
+const form = document.getElementById("diets");
+form.addEventListener("click", selectADiet);
+ */
+/*
+
+
+
+
 
 ////////////////////////////// difficultés rencontrées //////////////////////////
 /* 
@@ -151,4 +247,5 @@ const darkmode = () => {
 Logique a retenir : 
 - 2 flags et pas 1
 - si je clique sur starters, je cache mes desserts. Mais si mes starters sont cachés, je les affiche. Idem pour les desserts. Pour All : si l'un ou l'autre est caché, je l'affiche.
- */
+- 5. ne pas avoir anticipé la nécessité de générer mes mealsCards (<div>) en <buttons> 
+*/

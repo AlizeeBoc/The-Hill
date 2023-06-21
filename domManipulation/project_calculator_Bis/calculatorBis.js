@@ -121,9 +121,6 @@ let accumulativeInputs;
 function computeResult(input) {
   return Function("return " + input)(); ///!!! return espace avant les guillemets!!!!
 }
-/* function percentages(input) {
-  additionne les valeurs qui précèdent le % et les /100
-} */
 
 //2.callback
 //2.1. push les inputs dans un array vide --> console.log (myInputs) pour visualiser l'array
