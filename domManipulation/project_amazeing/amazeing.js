@@ -231,11 +231,11 @@ const createCell = () => {
     //!!! ordre!!! On scanne chaque rang, de la 1re a la derniere colonne!!!
     for (let x = 0; x < 13; x++) {
       const cell = document.createElement("div");
-      if (LEVEL_1[x][y] === "*") {
+      if (LEVEL_1[y][x] === "*") {
         cell.classList.add("wall");
-      } else if (LEVEL_1[x][y] === ".") {
+      } else if (LEVEL_1[y][x] === ".") {
         cell.classList.add("path");
-      } else if (LEVEL_1[x][y] === "S") {
+      } else if (LEVEL_1[y][x] === "S") {
         cell.setAttribute("id", "start");
       } else {
         cell.setAttribute("id", "treasure");
@@ -243,7 +243,7 @@ const createCell = () => {
       cell.innerText = "hello";
       cell.classList.add("cell");
       container.appendChild(cell);
-      addEventListener("keydown", travel);
+      // addEventListener("keydown", travel);
     }
   }
 };

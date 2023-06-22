@@ -199,22 +199,15 @@ baskets.forEach((basket) => {
   basket.addEventListener("click", registerOrder);
 });
 
-
 ////// you are lost somexhere here ////////////
 // filtres diets
 let mealsCategories = object.keys(food);
-mealsCategories.forEach(element => {
-  
-});
+mealsCategories.forEach((element) => {});
 
 if (e.target === "Gluten Free") {
-
 } else if (e.target === "Lactose Free") {
-
 } else {
-
 }
-
 
 /* const gluten = Object.keys(meals)
 console.log(gluten) */
