@@ -14,13 +14,13 @@
 //      -------> fetch()
 //      Nous renvoie une promesse (la réponse http (objet))        (-'oui')
 
-// 2. On extrait ses données                                   
+// 2. On extrait ses données
 //      -------> .then((response) => {
 //                   return response.json()                    (2) - J'ai besoin des datas, peux tu me les envoyer?)
 //               })
 //      Nous renvoie promesse : données json                      (- oui, les voici)
 
-// 3. On utilise les données pour les intégrer au DOM :        (3) - Bien reçu. apd ces datas, {crée mon Ul. Pour chaque data, {crée un "li", ajoute-lui du texte et ajoute-le à l'ul}. Ajoute l'ul au body})    
+// 3. On utilise les données pour les intégrer au DOM :        (3) - Bien reçu. apd ces datas, {crée mon Ul. Pour chaque data, {crée un "li", ajoute-lui du texte et ajoute-le à l'ul}. Ajoute l'ul au body})
 //      --------> .then((data) => {
 //      let myList = document.createElement("ul");
 //                     ...
@@ -32,17 +32,18 @@
 //      .then(response => response.json())
 //      .then(result => /* process result */)
 
-
 let rulesButton = document.getElementById("rulesButton");
 let body = document.body;
 
-rulesButton.addEventListener("click", function () {
-  fetch("becode.json")                                //toc toc       
-    .then((response) => {                                   
-      return response.json();                         //j'ai besoin des datas
+rulesButton.addEventListener("click", () => {
+  fetch("becode.json") //toc toc, as tu les datas?
+    .then((response) => {
+      // cool! Then, {peux tu donc me les envoyer?}
+      return response.json();
     })
     .then((data) => {
-      let myList = document.createElement("ul");      //Pour créer une ul
+      //cool!,then je vais me faire mon ul,
+      let myList = document.createElement("ul");
 
       data.forEach((rule) => {
         let item = document.createElement("li");
@@ -58,4 +59,3 @@ rulesButton.addEventListener("click", function () {
 });
 
 // --> 3requests. Propriétés de réponses : ws, asynch_fetch/, script.js (status 200)
-
