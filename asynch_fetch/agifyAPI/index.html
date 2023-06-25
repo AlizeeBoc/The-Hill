@@ -3,11 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="agify.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ysabeau+Office:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <title>Agify</title>
   </head>
   <body>
-    <input type="input" id="name" />
-    <button id="submit">Submit</button>
+    <h1>Let's find out the average age of your name!</h2>
+    <div id="container">
+      <input type="input" id="name" placeholder="Enter your name" />
+      <select name="menu" id="country">
+        <option value="">Select a country</option>
+      </select>
+      <button id="submit">Go!</button>
+    </div>
+
     <script defer src="agify.js"></script>
   </body>
 </html>

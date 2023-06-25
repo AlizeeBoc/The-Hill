@@ -1,0 +1,45 @@
+html,
+body {
+  margin: 0px;
+  box-sizing: border-box;
+  font-family: "Ysabeau Office", sans-serif;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 200px;
+}
+
+#container {
+  text-align: center;
+  display: flex;
+  width: fit-content;
+  margin: 0 auto;
+  border: 1px solid black;
+  justify-content: center;
+}
+
+#name {
+  font-family: "Ysabeau Office", sans-serif;
+  height: 30px;
+  font-size: 22px;
+}
+
+#country {
+  font-family: "Ysabeau Office", sans-serif;
+  font-size: 22px;
+}
+
+#submit {
+  font-family: "Ysabeau Office", sans-serif;
+  font-size: 22px;
+  background-color: black;
+  border: none;
+  color: white;
+}
+
+#messageDisplayed {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 22px;
+}
