@@ -12,37 +12,56 @@ If you'd like to spice things up, you can create an increasing difficulty by red
 
 Here is a badly drawn example to get you started. Let's do this! */
 
-////////////////////////////////////BRAINSTORM///////////////////////////////////////////////
-// 1. une mole apparait toutes les secondes : bouton, setInterval(helloMole, 1000), color : blue
+////////////////////////////////////HOWTO?!!!///////////////////////////////////////////////
+/* 
 
-let moles = document.getElementById("field");
+// 1. setInterval (pop, 1500)
+
+// 2.  const pop = () =>
+
+    // On génère un index random pour que ...
+    // ... l'enfant de field avec cet index prend l'id "mole".
+    //  -->A la prochaine "itération", avant qu'un autre index ne soit généré, la mole doit reprendre son id="hole"
+    // On déclare un indexReset = 0 hors de la fct
+    // On lui attribue la valeur de l'index
+    // A la prochaine "itération", l'enfant de field avec cet indexReset, cad l'ancienne mole, reprend l'id hole. 
+
+// 3. 
+    */
+
+////////////////////////////////NOTIONS DECOUVERTES A APPROFFONDIR//////////////////////////
+//        >> childElementCount
+
+let field = document.getElementById("field");
 let score = document.querySelector("p"); //("#score p")
 let scoreTotal = 0;
 
-let indexCopy = 0;
+let indexReset = 0;
 
 const pop = () => {
-  moles.children[indexCopy].id = "hole";
-  let index = Math.floor(Math.random() * moles.childElementCount);
-  indexCopy = index;
-  moles.children[index].id = "mole";
+  field.children[indexReset].id = "hole";
+  let index = Math.floor(Math.random() * field.childElementCount);
+  field.children[index].id = "mole";
+  indexReset = index;
 };
 
-setInterval(pop, 2000);
+const myGame = setInterval(pop, 1500);
 
-for (let circle of moles.children) {
+for (let circle of field.children) {
   circle.addEventListener("click", () => {
     if (circle.id === "mole") {
       scoreTotal += 1;
       console.log(scoreTotal);
-      score.innerText = scoreTotal.toString();
+      score.innerText = "Total : " + scoreTotal.toString();
     }
   });
 }
 
-// 2. On click dessus :
-//          1) EventListener qui ...
-//          2) change la couleur de ma taupe en rouge
-//          3) Ajoute un point a #scoreforEach score ++
-// 3. Arret du jeu apres 1 minutes : clear interval(endOfGame, 60000)
-// 4. setTimeout(displayScore, 6000)
+//quelle différence avec const stopGame = clearInterval(myGame)
+
+const stopGame = () => {
+  clearInterval(myGame);
+};
+
+setTimeout(stopGame, 60000);
+

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="food_card.css" />
+    <link rel="stylesheet" href="index.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div id="shop" class="shop_cart_modal_container closed">
+      <div class="shop_cart">
+        <div>
+          <div class="shop_nav">
+            <h2>Your Order Recap</h2>
+            <i id="closeShop" class="fa-solid fa-xmark"></i>
+          </div>
+          <hr />
+
+          <div class="shop_recap">
+            <ul id="shop_list_items"></ul>
+          </div>
+        </div>
+
+        <div class="shop_footer">
+          <h2 id="total_price">TOTAL - 100€</h2>
+          <button>Checkout</button>
+        </div>
+      </div>
+    </div>
+
+    <nav id="navbar">
+      <h1>Johnson's Kitchen</h1>
+      <i id="openShop" class="fa-solid fa-cart-shopping"></i>
+    </nav>
+    <section id="tags-container">
+      <button class="selected">ALL</button>
+    </section>
+    <section id="food-container"></section>
+
+    <footer>
+      <label class="switch">
+        <input type="checkbox" />
+        <span class="slider round"></span>
+      </label>
+    </footer>
+
+    <script type="module" src="index.js"></script>
+  </body>
+</html>
