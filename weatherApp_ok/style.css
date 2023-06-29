@@ -1,3 +1,31 @@
+/* @media only screen and (min-width:632px) {
+  
+} */
+
+.styleBody {
+  background-image: url(https://images.unsplash.com/photo-1511739172509-0e5da91222d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0Njc5NjF8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODgxMTI2Nzl8&ixlib=rb-4.0.3&q=80&w=1080);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: fit-content;
+}
+
+.styleMain {
+  height: fit-content;
+  width: 78vw;
+}
+
+.styleDaysSection {
+  display: flex;
+    justify-content: space-between;
+}
+
+.styleDivDay {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
 body {
   margin: 0px;
   box-sizing: border-box;
@@ -10,23 +38,15 @@ body {
   background-size: cover;
 }
 
-.styleBody {
-  display: block;
-}
-
-.styleMain {
-  text-align: center;
-  margin: 0em;
-  text-transform: capitalize;
-}
-
 main {
-  padding: 2rem;
+  padding: 20px;
   /* background: #eaeaea; */
   border-radius: 30px;
   margin: 1em;
   background: #000000d0;
+  /* background:#00000080 */
   color: white;
+  width: 13rem;
 }
 
 #cityInput {
@@ -58,7 +78,7 @@ main {
 }
 
 img {
-  width: 32%;
+  width: 40px;
 }
 
 #mainSection {
@@ -95,12 +115,71 @@ img {
 }
 
 #descriptionText {
-  border-top: 1px dashed;
+  /* border-top: 2px dashed;
   padding: 10px;
-  margin : 0px
+  padding-top: 30px;
+  margin: 0px 50px; */
+  font-size: 15px;
+  margin-top: 20px;
+  margin-bottom: 0px;
 }
 
 #cityDescription > :nth-child(3) {
   font-size: 40px;
   margin: 10px;
+}
+
+#cityDescription > :nth-child(2) {
+  margin-top: 0px;
+}
+
+#cityDescription {
+  text-align: center;
+}
+
+#cityName {
+  text-transform: capitalize;
+  font-weight: 500;
+  font-size: 30px;
+  margin-top: 0px;
+  margin-bottom: 3px;
+  font-size: 32px;
+}
+
+#dayTemp {
+  font-weight: 600;
+  font-size: 54px;
+  border-bottom: 2px dashed;
+  padding: 10px;
+  padding-bottom: 20px;
+  margin: 0px 55px;
+}
+
+#dName {
+  font-size: 25px;
+  margin-bottom: 0px;
+}
+
+#dDate {
+  margin-top: 1px;
+  font-size: 14px;
+}
+
+#dTemp {
+  font-weight: 600;
+  font-size: 28px;
+  margin: 5px 0px;
+  /* margin-top: 12px ;
+  margin-bottom:0px;
+  padding-bottom : 15px;
+  border-bottom: 2px dashed; */
+}
+
+#defaultFlex {
+  display: flex;
+  align-items: center;
+}
+
+#defaultIcon {
+  width: 30px;
 }

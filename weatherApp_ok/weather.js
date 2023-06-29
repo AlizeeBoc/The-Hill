@@ -1,9 +1,9 @@
 // to fix :
-//faire une deuxième recherche proprement : V
+//faire une deuxième recherche proprement :
 //min et max : api.openweathermap.org/data/2.5/forecast/daily?lat={latitude}&lon={longitude}&cnt={5}&units=metric&appid={API key} ?!! nope, api payante. Fetch les températures de chaque entrée blabla
-//randomepictures : landscapes uniquement : v
-// comment obtenir une photo d'unsplash en arrière plan de ma main sans refaire un fetch?
-// submit:hover dafuck?!!!
+//randomepictures : landscapes uniquement : v (add "&query=KEYWORD")
+// afficher la photo de la ville après avoir entré sa selection : ok, il fallait juste l'intégrer à la fonction
+// je me suis plantée : j'ai utilisé un index i qui balaie ma liste et ne selectionne que les 5 premieres données comme s'il s'agissait des 5 premiers jours. Recommencer en veillant a ce que le 1 === 0 soit en fait i compris ent
 
 /* The Mission
 You have been sent abroad for a 10-month work mission. 
@@ -16,12 +16,84 @@ Specifications
 In the home page the user can enter the city of his/her choice (think of the right HTML elements here)
 On clicking the SUBMIT button or pressing ENTER the application will display the weather for the next 5 days
 The application must be responsive and mobile friendly */
+var mykey = config.MY_KEY;
+
+/// page d'accueil --> fetch les données météo pour Bxl + photo" ///
+fetch(
+  `http://api.openweathermap.org/geo/1.0/direct?q=Brussels&limit=1&appid=` +
+    mykey
+)
+  .then((response) => response.json())
+  .then((data) => {
+    const lat = data[0].lat;
+    const long = data[0].lon;
+    console.log(data);
+    fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&units=metric&appid=` +
+        mykey
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        const day = {};
+        day.name = "Brussels";
+        day.dateTime = new Date(data.list[0].dt * 1000);
+        day.description = data.list[0].weather[0].description;
+        day.temperature = Math.round(data.list[0].main.temp);
+
+        const defaultCity = document.getElementById("defaultCity");
+        const defaultName = document.createElement("p");
+        defaultName.innerText = day.name;
+        defaultName.id = "dName";
+
+        const defaultDate = document.createElement("p");
+        defaultDate.innerText = day.dateTime.toLocaleString("en-US", {
+          month: "long",
+          weekday: "long",
+          year: "numeric",
+          day: "numeric",
+        });
+        defaultDate.id = "dDate";
+
+        const defaultTemp = document.createElement("p");
+        defaultTemp.innerText = day.temperature + "°c";
+        defaultTemp.id = "dTemp";
+
+        const defaultBox = document.createElement("div");
+        defaultBox.id = "defaultFlex";
+
+        const defaultDescription = document.createElement("p");
+        defaultDescription.innerText = day.description;
+        defaultDescription.id = "dDescription";
+
+        const icone = document.createElement("img");
+        icone.src =
+          "https://openweathermap.org/img/wn/" +
+          data.list[0].weather[0].icon +
+          "@2x.png";
+        icone.id = "defautltIcon";
+
+        defaultBox.append(icone);
+        defaultBox.append(defaultDescription);
+
+        defaultCity.appendChild(defaultName);
+        defaultCity.appendChild(defaultDate);
+        defaultCity.appendChild(defaultTemp);
+        defaultCity.appendChild(defaultBox);
+      });
+  })
+  .catch((error) => {
+    console.error(
+      "Une erreur s'est produite lors de la récupération des coordonnées géographiques pour Bruxelles:",
+      error
+    );
+  });
+
+/// EventListeners, clean la page (pour pouvoir afficher les données de la ville entrée, sans conflit)+ extraction des données météo  ///
 
 const submitBtn = document.getElementById("submit");
 const cityInput = document.getElementById("cityInput");
 const body = document.body;
-
-var mykey = config.MY_KEY;
 
 cityInput.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
@@ -33,10 +105,50 @@ const fetchWeatherData = () => {
   let input = document.getElementById("cityInput");
   let city = input.value;
 
-  const clean = document.querySelectorAll(".clean");
-  clean.forEach((element) => {
-    element.remove();
-  });
+  // const deleteCard = document.querySelectorAll(".clean");
+  // deleteCard.forEach((element) => {
+  //   element.remove();
+  // });
+
+  /// Remove la ville par défaut  ///
+
+  const defaultCity = document.getElementById("defaultCity");
+  defaultCity.remove();
+
+  // Extraction des données météo par lat/lon puis par ville //
+
+  let unsplashKey = config.MY_UNSPLASH_KEY;
+  let unsplashUrl =
+    "https://api.unsplash.com/photos/random/?client_id=" +
+    unsplashKey +
+    `&query=${city}`;
+
+  fetch(unsplashUrl)
+    .then((response) => response.json())
+    .then((data) => {
+      // console.log(data)
+      document.body.style.backgroundImage = `url(${data.urls.regular})`;
+      body.classList.toggle("styleBody");
+
+      const main = document.querySelector("main");
+      main.classList.toggle("styleMain");
+
+      const divDays = document.querySelectorAll(".divDay");
+      divDays.forEach((element) => {
+        element.classList.toggle("styleDivDay");
+      });
+
+      const daysSection = document.querySelector("#daysSection");
+      daysSection.classList.toggle("styleDaysSection");
+    })
+    .catch((error) => {
+      console.error(
+        "Une erreur s'est produite lors de la récupération des images :",
+        error
+      );
+    });
+
+  /// Avec ces datas on crée un objet pour ensuite générer nos "jours" ///
 
   fetch(
     `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=` +
@@ -53,9 +165,6 @@ const fetchWeatherData = () => {
           `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=` +
             mykey
         )
-          // fetch(
-          //   `api.openweathermap.org/data/2.5/forecast/daily?lat=${latitude}&lon=${longitude}&units=metric&cnt=3&appid=${APIKey}`
-          // )
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
@@ -64,6 +173,7 @@ const fetchWeatherData = () => {
             const daysSection = document.createElement("section");
             daysSection.id = "daysSection";
 
+            ////////////////////////////////////////////////////// i<8 que faire avec mon if else? //////////////////////
             for (let i = 0; i < 5; i++) {
               const forecast = data.list[i * 8]; // car "5 day forecast is available at any location on the globe. It includes weather forecast data with 3-hour step. " 3 * 8 = 24h
 
@@ -75,13 +185,14 @@ const fetchWeatherData = () => {
               // day.maxTemperature = Math.round(forecast.main.temp_max);
               // day.minTemperature = Math.round(forecast.main.temp_min);
 
+              /// Prévisions du jour ///
               if (i === 0) {
                 const mainSection = document.createElement("section");
                 mainSection.id = "mainSection";
 
                 const main = document.querySelector("main");
-                main.style.height = "85vh";
-                main.style.width = "70vw";
+                // main.style.height = "90vh";
+                // main.style.width = "70vw";
 
                 const cityDescription = document.createElement("div");
                 const cityName = document.createElement("h1");
@@ -95,7 +206,6 @@ const fetchWeatherData = () => {
                   weekday: "long",
                   year: "numeric",
                   day: "numeric",
-                  hour: "numeric",
                 });
 
                 const descriptionText = document.createElement("p");
@@ -105,7 +215,8 @@ const fetchWeatherData = () => {
                 cityDescription.append(date);
 
                 const dayTemp = document.createElement("p");
-                dayTemp.innerText = day.temperature + "°C";
+                dayTemp.innerText = day.temperature + "°c";
+                dayTemp.style.textTransform = "lowercase";
                 dayTemp.id = "dayTemp";
                 cityDescription.append(dayTemp);
 
@@ -150,7 +261,18 @@ const fetchWeatherData = () => {
                 mainContainer.append(mainSection);
 
                 input = document.querySelector("input");
-                input.value = "";
+                input.value = "bla";
+
+                input.style.visibility = "hidden";
+
+                const displaySearchBar = () => {
+                  input.style.visibility = "visible";
+                };
+                submitBtn.addEventListener("click", displaySearchBar);
+
+                ///////////////////////////////////// Comment faire une nouvelle recherche ///////////////////////////////
+
+                /// Prévisions des 4 jours suivants ///
               } else {
                 let divDay = document.createElement("div");
                 divDay.setAttribute("class", "divDay");
@@ -165,7 +287,8 @@ const fetchWeatherData = () => {
                   ".png";
 
                 let dayTemp = document.createElement("p");
-                dayTemp.innerText = day.temperature;
+                dayTemp.innerText = day.temperature + "°c";
+                dayTemp.style.textTransform = "lowercase";
 
                 divDay.append(dayName);
                 divDay.append(dayIcon);
@@ -177,6 +300,7 @@ const fetchWeatherData = () => {
                 container.appendChild(daysSection);
               }
 
+              /// foutoir complet ///
               const mainContainer = document.querySelector("main");
               mainContainer.append(container);
               // mainContainer.classList.toggle("styleMain");
@@ -222,13 +346,15 @@ let getDayName = (dateString) => {
 
 submitBtn.addEventListener("click", fetchWeatherData);
 
+/// Photo en background de ma page d'accueil ///
 let unsplashKey = config.MY_UNSPLASH_KEY;
 let unsplashUrl =
   "https://api.unsplash.com/photos/random/?client_id=" +
   unsplashKey +
-  "&query=landscape";
-let test = document.createElement("img");
-body.append(test);
+  "&query=Bruxelles";
+
+let background = document.createElement("img");
+body.append(background);
 
 fetch(unsplashUrl)
   .then((response) => response.json())
