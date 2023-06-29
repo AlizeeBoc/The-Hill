@@ -22,7 +22,6 @@ const cityInput = document.getElementById("cityInput");
 const body = document.body;
 
 var mykey = config.MY_KEY;
-// const APIKey = "5b384a3b776b49fa2d43063ba338e1f9";
 
 cityInput.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
@@ -40,7 +39,8 @@ const fetchWeatherData = () => {
   });
 
   fetch(
-    `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=`+mykey
+    `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=` +
+      mykey
   )
     .then((response) => response.json())
     .then((data) => {
@@ -50,7 +50,8 @@ const fetchWeatherData = () => {
         const longitude = data[0].lon;
 
         fetch(
-          `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=`+mykey
+          `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=` +
+            mykey
         )
           // fetch(
           //   `api.openweathermap.org/data/2.5/forecast/daily?lat=${latitude}&lon=${longitude}&units=metric&cnt=3&appid=${APIKey}`
@@ -221,8 +222,11 @@ let getDayName = (dateString) => {
 
 submitBtn.addEventListener("click", fetchWeatherData);
 
-let unsplashKey = config.MY_UNSPLASH_KEY
-let unsplashUrl = "https://api.unsplash.com/photos/random/?client_id="+unsplashKey+"&query=landscape";
+let unsplashKey = config.MY_UNSPLASH_KEY;
+let unsplashUrl =
+  "https://api.unsplash.com/photos/random/?client_id=" +
+  unsplashKey +
+  "&query=landscape";
 let test = document.createElement("img");
 body.append(test);
 
@@ -248,3 +252,4 @@ fetch(unsplashUrl)
 ///tuto css : https://www.youtube.com/watch?v=WZNG8UomjSI
 // tuto random picture unsplash : https://www.youtube.com/watch?v=e8p1zSNmK7Q
 // idéées de petite app à réaliser https://github.com/AsmrProg-YT/100-days-of-javascript/tree/master/Day%20%2310%20-%20Weather%20App
+// how to hide apiKey : https://medium.com/@oreillyalan88/how-to-hide-api-keys-from-github-7a14d1bf80c
