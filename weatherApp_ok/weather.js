@@ -71,7 +71,7 @@ fetch(
           "https://openweathermap.org/img/wn/" +
           data.list[0].weather[0].icon +
           "@2x.png";
-        icone.id = "defautltIcon";
+        icone.classList = "dIcon";
 
         defaultBox.append(icone);
         defaultBox.append(defaultDescription);
@@ -131,7 +131,8 @@ const fetchWeatherData = () => {
       body.classList.toggle("styleBody");
 
       const main = document.querySelector("main");
-      main.classList.toggle("styleMain");
+      main.className = "styleMain";
+      // main.classList.toggle("styleMain");
 
       const divDays = document.querySelectorAll(".divDay");
       divDays.forEach((element) => {
@@ -140,6 +141,14 @@ const fetchWeatherData = () => {
 
       const daysSection = document.querySelector("#daysSection");
       daysSection.classList.toggle("styleDaysSection");
+
+      const pictures = document.querySelectorAll("img");
+      pictures.forEach((element) => {
+        element.classList.toggle("styleImg");
+      });
+
+      const defaultIcon = document.querySelector(".defaultIcon");
+      defaultIcon.classList.remove("dIcon");
     })
     .catch((error) => {
       console.error(
@@ -261,7 +270,7 @@ const fetchWeatherData = () => {
                 mainContainer.append(mainSection);
 
                 input = document.querySelector("input");
-                input.value = "bla";
+                input.value = "";
 
                 input.style.visibility = "hidden";
 
