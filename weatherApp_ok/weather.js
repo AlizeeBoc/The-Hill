@@ -27,14 +27,14 @@ fetch(
   .then((data) => {
     const lat = data[0].lat;
     const long = data[0].lon;
-    console.log(data);
+    // console.log(data);
     fetch(
       `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&units=metric&appid=` +
         mykey
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         const day = {};
         day.name = "Brussels";
         day.dateTime = new Date(data.list[0].dt * 1000);
@@ -102,6 +102,12 @@ cityInput.addEventListener("keypress", (event) => {
 });
 
 const fetchWeatherData = () => {
+  const removeDiv = () => {
+    const defaultCity = document.getElementById("defaultCity");
+    defaultCity.remove();
+  };
+  setTimeout(removeDiv, 500);
+  // console.log("hello");
   let input = document.getElementById("cityInput");
   let city = input.value;
 
@@ -111,9 +117,6 @@ const fetchWeatherData = () => {
   // });
 
   /// Remove la ville par défaut  ///
-
-  const defaultCity = document.getElementById("defaultCity");
-  defaultCity.remove();
 
   // Extraction des données météo par lat/lon puis par ville //
 
@@ -157,7 +160,7 @@ const fetchWeatherData = () => {
     .then((response) => response.json())
     .then((data) => {
       if (data.length > 0) {
-        console.log(data);
+        // console.log(data);
         const latitude = data[0].lat;
         const longitude = data[0].lon;
 
@@ -186,6 +189,14 @@ const fetchWeatherData = () => {
               // day.minTemperature = Math.round(forecast.main.temp_min);
 
               /// Prévisions du jour ///
+
+              // data.list.forEach(element => {
+              //   for (let i of element) {
+              //     if ()
+              //   }
+
+              // });
+
               if (i === 0) {
                 const mainSection = document.createElement("section");
                 mainSection.id = "mainSection";

@@ -1,29 +1,32 @@
-/* @media only screen and (min-width:632px) {
-  
-} */
-
 .styleBody {
-  background-image: url(https://images.unsplash.com/photo-1511739172509-0e5da91222d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0Njc5NjF8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODgxMTI2Nzl8&ixlib=rb-4.0.3&q=80&w=1080);
+  /* background-image: url(https://images.unsplash.com/photo-1511739172509-0e5da91222d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0Njc5NjF8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODgxMTI2Nzl8&ixlib=rb-4.0.3&q=80&w=1080); */
   background-repeat: no-repeat;
   background-size: cover;
-  height: fit-content;
+  /* height: fit-content; */
 }
 
 .styleMain {
-  height: fit-content;
-  width: 78vw;
+  /* height: fit-content;
+  width: 78vw; */
+  height: 100vh;
+  width: 76vw;
+  background: #00000080;
 }
 
-.styleDaysSection {
+/* .styleDaysSection {
   display: flex;
     justify-content: space-between;
-}
+} */
 
-.styleDivDay {
+/* .styleDivDay {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+} */
+
+.styleImg {
+  size: 60px;
 }
 
 body {
@@ -55,7 +58,7 @@ main {
   border: none;
   height: 1em;
   outline: none;
-  padding: 0.6em 1em;
+  padding: 10px 16px;
   background: #7c7c7c2b;
   color: white;
   width: 8em;
@@ -86,10 +89,10 @@ img {
   flex-direction: column;
 }
 
-#minMax {
+/* #minMax {
   display: flex;
   justify-content: space-around;
-}
+} */
 
 .divDay {
   display: flex;
@@ -126,7 +129,7 @@ img {
 
 #cityDescription > :nth-child(3) {
   font-size: 40px;
-  margin: 10px;
+  margin: 0px 30%;
 }
 
 #cityDescription > :nth-child(2) {
@@ -181,5 +184,28 @@ img {
 }
 
 #defaultIcon {
-  width: 30px;
+  width: 50px;
+}
+
+@media only screen and (min-width: 450px) {
+  .styleMain {
+    height: 90vh;
+    width: 87vw;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    background: #00000070;
+    justify-content: space-between;
+  }
+  .styleDivDay {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 25px;
+  }
+  .styleDaysSection {
+    display: flex;
+    justify-content: space-between;
+  }
 }
