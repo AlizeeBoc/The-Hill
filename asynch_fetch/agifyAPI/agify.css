@@ -38,8 +38,8 @@ h1 {
   color: white;
 }
 
-#messageDisplayed {
-    text-align: center;
-    margin-top: 25px;
-    font-size: 22px;
+.messageDisplayed {
+  text-align: center; /*??? dafuck? */
+  margin-top: 25px;
+  font-size: 22px;
 }

@@ -94,18 +94,17 @@ fetch(
 const submitBtn = document.getElementById("submit");
 const cityInput = document.getElementById("cityInput");
 const body = document.body;
-
-cityInput.addEventListener("keypress", (event) => {
-  if (event.key === "Enter") {
-    fetchWeatherData();
-  }
-});
-
 const fetchWeatherData = () => {
   const removeDiv = () => {
     const defaultCity = document.getElementById("defaultCity");
     defaultCity.remove();
   };
+  cityInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+      fetchWeatherData();
+    }
+  });
+
   setTimeout(removeDiv, 500);
   // console.log("hello");
   let input = document.getElementById("cityInput");
