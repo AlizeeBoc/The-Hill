@@ -1,4 +1,12 @@
 import Data from "./config.js";
+
+const createElmt = (childClass, parent, elmt) => {
+  const child = document.createElement(elmt);
+  child.classList.add(childClass);
+  parent.appendChild(child);
+  return child;
+};
+
 const searchBar = document.querySelector("#searchBar");
 const container = document.querySelector(".container");
 const cityNameContainer = document.querySelector(".city-name");
@@ -29,7 +37,7 @@ searchBar.addEventListener("keyup", (event) => {
       .then((data) => {
         const lat = data[0].lat;
         const long = data[0].lon;
-        console.log(data);
+        // console.log(data);
         cityNameContainer.innerHTML = data[0].name;
 
         // Fetching final data according to the coordinates
@@ -56,14 +64,13 @@ searchBar.addEventListener("keyup", (event) => {
               let dayOfTheWeek = weekdays[(date.getDay() + i) % 7];
               const data = result.list[i];
 
-              // Create the elements with Data
-              const card = document.createElement("div");
-              card.classList.add("card");
-              container.appendChild(card);
+              const card = createElmt("card", container, "div");
 
-              const imageBox = document.createElement("div");
-              imageBox.classList.add("imgBx");
-              card.appendChild(imageBox);
+              const imageBox = createElmt("imgBx", card, "div");
+
+              //   const imageBox = document.createElement("div");
+              //   imageBox.classList.add("imgBx");
+              //   card.appendChild(imageBox);
 
               const cardImg = document.createElement("img");
               cardImg.src =
@@ -72,9 +79,7 @@ searchBar.addEventListener("keyup", (event) => {
                 "@2x.png";
               imageBox.appendChild(cardImg);
 
-              const contentBox = document.createElement("div");
-              contentBox.classList.add("contentBx");
-              card.appendChild(contentBox);
+              const contentBox = createElmt("contentBx", card, "div");
 
               const cardHeader = document.createElement("h2");
               cardHeader.innerHTML = dayOfTheWeek;
@@ -84,9 +89,7 @@ searchBar.addEventListener("keyup", (event) => {
               tempDescription.innerHTML = data.weather[0].description;
               contentBox.appendChild(tempDescription);
 
-              const currentTempBox = document.createElement("div");
-              currentTempBox.classList.add("color");
-              contentBox.appendChild(currentTempBox);
+              const currentTempBox = createElmt("color", contentBox, "div");
 
               const currentTempHeader = document.createElement("h3");
               currentTempHeader.innerHTML = "Temp:";
@@ -97,9 +100,8 @@ searchBar.addEventListener("keyup", (event) => {
               currentTemp.innerHTML = data.main.temp + "°C";
               currentTempBox.appendChild(currentTemp);
 
-              const minMaxTemperatures = document.createElement("div");
-              minMaxTemperatures.classList.add("details");
-              contentBox.appendChild(minMaxTemperatures);
+
+              const minMaxTemperatures = createElmt("details", contentBox, "div")
 
               const minMaxTempHeader = document.createElement("h3");
               minMaxTempHeader.innerHTML = "More:";
