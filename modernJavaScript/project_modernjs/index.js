@@ -7,6 +7,19 @@ const createElmt = (childClass, parent, elmt) => {
   return child;
 };
 
+const createElmt_txt = (elmt, txt, parent) => {
+  const child = document.createElement(elmt);
+  child.innerHTML = txt;
+  parent.appendChild(child);
+};
+
+let createElmt_ClassTxt = (elmt, childClass, dataList, parent) => {
+  const child = document.createElement(elmt);
+  child.classList.add(childClass);
+  child.innerHTML = dataList + "°C";
+  parent.appendChild(child);
+};
+
 const searchBar = document.querySelector("#searchBar");
 const container = document.querySelector(".container");
 const cityNameContainer = document.querySelector(".city-name");
@@ -81,41 +94,52 @@ searchBar.addEventListener("keyup", (event) => {
 
               const contentBox = createElmt("contentBx", card, "div");
 
-              const cardHeader = document.createElement("h2");
-              cardHeader.innerHTML = dayOfTheWeek;
-              contentBox.appendChild(cardHeader);
+              const cardHeader = createElmt_txt("h2", dayOfTheWeek, contentBox);
 
-              const tempDescription = document.createElement("h4");
-              tempDescription.innerHTML = data.weather[0].description;
-              contentBox.appendChild(tempDescription);
+              const tempDescription = createElmt_txt(
+                "h4",
+                data.weather[0].description,
+                contentBox
+              );
 
               const currentTempBox = createElmt("color", contentBox, "div");
 
-              const currentTempHeader = document.createElement("h3");
-              currentTempHeader.innerHTML = "Temp:";
-              currentTempBox.appendChild(currentTempHeader);
+              const currentTempHeader = createElmt_txt(
+                "h3",
+                "Temp :",
+                currentTempBox
+              );
 
               const currentTemp = document.createElement("span");
               currentTemp.classList.add("current-temp");
               currentTemp.innerHTML = data.main.temp + "°C";
               currentTempBox.appendChild(currentTemp);
 
+              const minMaxTemperatures = createElmt(
+                "details",
+                contentBox,
+                "div"
+              );
 
-              const minMaxTemperatures = createElmt("details", contentBox, "div")
+              const minMaxTempHeader = createElmt_txt(
+                "h3",
+                "More:",
+                minMaxTemperatures
+              );
 
-              const minMaxTempHeader = document.createElement("h3");
-              minMaxTempHeader.innerHTML = "More:";
-              minMaxTemperatures.appendChild(minMaxTempHeader);
+              const minTemp = createElmt_ClassTxt(
+                "span",
+                "min-temp",
+                data.main.temp_min,
+                minMaxTemperatures
+              );
+              const maxTemp = createElmt_ClassTxt(
+                "span",
+                "max-temp",
+                data.main.temp_max,
+                minMaxTemperatures
+              );
 
-              const minTemp = document.createElement("span");
-              minTemp.classList.add("min-temp");
-              minTemp.innerHTML = data.main.temp_min + "°C";
-              minMaxTemperatures.appendChild(minTemp);
-
-              const maxTemp = document.createElement("span");
-              maxTemp.classList.add("max-temp");
-              maxTemp.innerHTML = data.main.temp_max + "°C";
-              minMaxTemperatures.appendChild(maxTemp);
             }
           });
       })
