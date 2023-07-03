@@ -224,12 +224,12 @@ const cityCard = document.getElementById("cityCard");
 
 inputDef.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
-    // if (cityCard.classList.contains("oldCard")){
-    //   cityCard.remove()
-    // }
+    if (cityCard.classList.contains("oldCard")){
+      cityCard.remove()
+    }
     fetchWeatherData();
     cityCard.style.display = "block";
-    // cityCard.classList.toggle("oldCard")
+    cityCard.classList.add("oldCard")
   }
 });
 
@@ -322,13 +322,11 @@ const fetchWeatherData = () => {
               day.max = Math.round(maxTemperature(data.list)[index]);
             });
 
-            let city = document.getElementById("cityName");
-            city.innerText = input.value;
-            city.style.textTransform = "capitalize";
+            setId_InnerTxt("cityName", input.value);
+
             input.value = "";
 
-            let date = document.getElementById("date");
-            date.innerText = new Date(data.list[0].dt * 1000).toLocaleString(
+            const newDate = new Date(data.list[0].dt * 1000).toLocaleString(
               "en-US",
               {
                 month: "long",
@@ -338,11 +336,13 @@ const fetchWeatherData = () => {
               }
             );
 
-            let temp = document.getElementById("temp");
-            temp.innerText = Math.round(data.list[0].main.temp) + "°c";
+            setId_InnerTxt("date", newDate);
 
-            let description = document.getElementById("description");
-            description.innerText = data.list[0].weather[0].description;
+            const dataList = data.list;
+
+            setId_InnerTxt("temp", Math.round(dataList[0].main.temp) + "°c");
+
+            setId_InnerTxt("description", dataList[0].weather[0].description);
 
             let icon = document.getElementById("icon");
             icon.src =
@@ -350,18 +350,16 @@ const fetchWeatherData = () => {
               data.list[0].weather[0].icon +
               "@2x.png";
 
-            const minMax = document.getElementById("minMax");
-            minMax.innerText =
-              Math.round(minTemperature(data.list)[0]) +
+            const minMax =
+              Math.round(minTemperature(dataList)[0]) +
               "/" +
-              Math.round(maxTemperature(data.list)[0]) +
+              Math.round(maxTemperature(dataList)[0]) +
               "°c";
 
-            const forecastWind = document.getElementById("wind");
-            forecastWind.innerText = data.list[0].wind.speed + " m/s";
+            setId_InnerTxt("minMax", minMax);
 
-            const humidity = document.getElementById("humidity");
-            humidity.innerText = data.list[0].main.humidity + " %";
+            setId_InnerTxt("wind", dataList[0].wind.speed + " m/s");
+            setId_InnerTxt("humidity", dataList[0].main.humidity + " %");
 
             const visibility = document.getElementById("visibility");
             visibility.innerText = data.list[0].visibility / 1000 + " km";
