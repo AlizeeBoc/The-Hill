@@ -215,7 +215,7 @@ const cityCard = document.getElementById("cityCard");
 inputDef.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     fetchWeatherData();
-    input.style.display = "block";
+    // input.style.display = "block";
     cityCard.style.display = "block";
   }
 });
@@ -411,11 +411,11 @@ const fetchWeatherData = () => {
 
   // const inputDef = document.getElementById("inputDef")
   // inputDef.classList.toggle("input")
-  const searchInput = document.querySelector("#input");
-  searchInput.classList.toggle("input");
+  // const searchInput = document.querySelector("#input");
+  // searchInput.classList.toggle("input");
 
-  const submit = document.querySelector("#submit");
-  submit.classList.toggle("submit");
+  // const submit = document.querySelector("#submit");
+  // submit.classList.toggle("submit");
 };
 
 const submitBtn = document.querySelector("#submitDef");
