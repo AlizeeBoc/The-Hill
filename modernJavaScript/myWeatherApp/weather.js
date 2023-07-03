@@ -17,10 +17,16 @@ The application must be responsive and mobile friendly */
 
 //////////////////////////////////////////////// FONCTIONS UTILES ///////////////////////////////
 
+const getDayOfWeek = (timestamp) => {
+  const date = new Date(timestamp * 1000);
+  const options = { weekday: "long" };
+  return date.toLocaleDateString("en-US", options);
+};
+
 const setId_InnerTxt = (IdName, name) => {
   const elmt = document.getElementById(IdName);
   elmt.innerText = name;
-}
+};
 
 const getIconUrl = (iconCode) => {
   return "https://openweathermap.org/img/wn/" + iconCode + "@2x.png";
@@ -170,7 +176,6 @@ fetch(
     )
       .then((response) => response.json())
       .then((data) => {
-
         console.log(data);
         const day = {};
 
@@ -180,17 +185,22 @@ fetch(
         day.temperature = Math.round(data.list[0].main.temp);
         // temperatures a modifier
 
-        const cityNameDef = setId_InnerTxt("cityNameDef", day.name)
-        const dateDef = setId_InnerTxt("dateDef",day.dateTime.toLocaleString("en-US", {
-          month: "long",
-          weekday: "long",
-          year: "numeric",
-          day: "numeric",
-        }))
+        const cityNameDef = setId_InnerTxt("cityNameDef", day.name);
+        const dateDef = setId_InnerTxt(
+          "dateDef",
+          day.dateTime.toLocaleString("en-US", {
+            month: "long",
+            weekday: "long",
+            year: "numeric",
+            day: "numeric",
+          })
+        );
 
-        const tempDef = setId_InnerTxt("tempDef", day.temperature + "°c")
-        const descriptionDef = setId_InnerTxt("descriptionDef", day.description )
-
+        const tempDef = setId_InnerTxt("tempDef", day.temperature + "°c");
+        const descriptionDef = setId_InnerTxt(
+          "descriptionDef",
+          day.description
+        );
 
         const iconDef = document.getElementById("iconDef");
         iconDef.src =
@@ -214,9 +224,8 @@ const cityCard = document.getElementById("cityCard");
 
 inputDef.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
-    // const oldCard = document.querySelector("oldCard")
-    // if (oldCard){
-    //   oldCard.remove()
+    // if (cityCard.classList.contains("oldCard")){
+    //   cityCard.remove()
     // }
     fetchWeatherData();
     cityCard.style.display = "block";
@@ -234,7 +243,6 @@ const fetchWeatherData = () => {
 
   let input = document.querySelector(".input");
   let city = input.value;
-  
 
   fetch(
     "https://api.unsplash.com/photos/random/?client_id=" +
@@ -245,7 +253,6 @@ const fetchWeatherData = () => {
     .then((data) => {
       //   console.log(data);
       body.style.backgroundImage = `url(${data.urls.regular})`;
-      
     })
     .catch((error) => {
       console.error(
@@ -262,6 +269,7 @@ const fetchWeatherData = () => {
     .then((data) => {
       if (data.length > 0) {
         // console.log(data);
+
         const latitude = data[0].lat;
         const longitude = data[0].lon;
 
@@ -276,18 +284,20 @@ const fetchWeatherData = () => {
 
             const days = [];
 
-            // Avec le "data.list.length -1", on exclue les datas de la derniere liste ---------> bugs avant minuit : plus que 4 jours. Nécessité de tout push si les dates sont différentes OU si on est arrivé à la fin des datas.
-            // for (let i = 0; i < data.list.length -1; i++) {
+            //---------> bugs avant minuit : plus que 4 jours. Nécessité de tout push si les dates sont différentes OU si on est arrivé à la fin des datas.
+
+            // for (let i = 0; i < data.list.length; i++) {
+            //   // -------------------------------> bug apres minuit : 6 jours en console.log (7p, 4*8p, 1p) (6p, 3*8, 2) (5p, 4*8, 3)
             //   let currentDay = convertTimeStamp(data.list[i].dt).slice(0, 2);
-            //   let nextDay = convertTimeStamp(data.list[i + 1].dt).slice(0, 2);
+            //   let nextDay = convertTimeStamp(data.list[i + 1]?.dt).slice(0, 2);
+            //   if (currentDay !== nextDay || i === data.list.length - 1)
 
-            //   if (currentDay !== nextDay) {
-
-            for (let i = 0; i < data.list.length; i++) {
-              // -------------------------------> bug apres minuit : 6 jours en console.log (7p, 4*8p, 1p) (6p, 3*8, 2) (5p, 4*8, 3)
+            //
+            for (let i = 0; i < data.list.length - 1; i++) {
               let currentDay = convertTimeStamp(data.list[i].dt).slice(0, 2);
               let nextDay = convertTimeStamp(data.list[i + 1]?.dt).slice(0, 2);
-              if (currentDay !== nextDay || i === data.list.length - 1) {
+
+              if (currentDay !== nextDay) {
                 let dayOfWeek = getDayOfWeek(data.list[i].dt);
                 let description = data.list[i].weather[0].description;
 
@@ -300,12 +310,6 @@ const fetchWeatherData = () => {
                     "@2x.png",
                 });
               }
-            }
-
-            function getDayOfWeek(timestamp) {
-              const date = new Date(timestamp * 1000);
-              const options = { weekday: "long" };
-              return date.toLocaleDateString("en-US", options);
             }
 
             console.log(days);
@@ -321,6 +325,7 @@ const fetchWeatherData = () => {
             let city = document.getElementById("cityName");
             city.innerText = input.value;
             city.style.textTransform = "capitalize";
+            input.value = "";
 
             let date = document.getElementById("date");
             date.innerText = new Date(data.list[0].dt * 1000).toLocaleString(
@@ -344,12 +349,6 @@ const fetchWeatherData = () => {
               "https://openweathermap.org/img/wn/" +
               data.list[0].weather[0].icon +
               "@2x.png";
-
-            // const min = document.getElementById("min");
-            // min.innerText = Math.round(minTemperature(data.list)[0]);
-
-            // const max = document.getElementById("max");
-            // max.innerText = Math.round(maxTemperature(data.list)[0]);
 
             const minMax = document.getElementById("minMax");
             minMax.innerText =
@@ -388,17 +387,6 @@ const fetchWeatherData = () => {
               minMaxForecast.innerText =
                 forecast.min + "/" + forecast.max + "°c";
 
-              // const minForecast = document.createElement("p");
-              // minForecast.id = "minForecast";
-              // minForecast.innerText = forecast.min;
-
-              // const maxForecast = document.createElement("p");
-              // maxForecast.id = "maxForecast";
-              // maxForecast.innerText = forecast.max;
-
-              // tempForecast.appendChild(minForecast);
-              // tempForecast.appendChild(maxForecast);
-
               tempForecast.appendChild(minMaxForecast);
 
               dailyForecast.append(dayNameForecast);
@@ -414,31 +402,14 @@ const fetchWeatherData = () => {
           });
       }
     });
-
-  // const inputDef = document.getElementById("inputDef")
-  // inputDef.classList.toggle("input")
-  // const searchInput = document.querySelector("#input");
-  // searchInput.classList.toggle("input");
-
-  // const submit = document.querySelector("#submit");
-  // submit.classList.toggle("submit");
 };
 
 const submitBtn = document.querySelector("#submitDef");
 submitBtn.addEventListener("click", () => {
   fetchWeatherData();
-  input.style.display = "block";
+  // input.style.display = "block";
   cityCard.style.display = "block";
 });
-
-// // const submit = document.querySelector("#submit");
-// submit.addEventListener("click", () => {
-//   cityCard.classList.toggle("oldCity")
-//   setTimeout(removeOldCity(), 500)
-//   fetchWeatherData();
-//   // input.style.display = "block";
-//   // cityCard.style.display = "block";
-// })
 
 let unsplashKey = config.key_Unsplash;
 let unsplashUrl =
