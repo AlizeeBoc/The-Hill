@@ -110,10 +110,12 @@ searchBar.addEventListener("keyup", (event) => {
                 currentTempBox
               );
 
-              const currentTemp = document.createElement("span");
-              currentTemp.classList.add("current-temp");
-              currentTemp.innerHTML = data.main.temp + "°C";
-              currentTempBox.appendChild(currentTemp);
+              const currentTemp = createElmt_ClassTxt(
+                "span",
+                "current-temp",
+                data.main.temp,
+                currentTempBox
+              );
 
               const minMaxTemperatures = createElmt(
                 "details",
@@ -139,7 +141,6 @@ searchBar.addEventListener("keyup", (event) => {
                 data.main.temp_max,
                 minMaxTemperatures
               );
-
             }
           });
       })
