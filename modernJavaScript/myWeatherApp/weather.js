@@ -214,15 +214,21 @@ const cityCard = document.getElementById("cityCard");
 
 inputDef.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
+    // const oldCard = document.querySelector("oldCard")
+    // if (oldCard){
+    //   oldCard.remove()
+    // }
     fetchWeatherData();
-    // input.style.display = "block";
     cityCard.style.display = "block";
+    // cityCard.classList.toggle("oldCard")
   }
 });
 
 /////////////Ville entrée dans la barre de recherche/////////////////////////
 const fetchWeatherData = () => {
-  setTimeout(removeCityCardDef, 500);
+  // removeCityCardDef()
+  setTimeout(removeCityCardDef, 50);
+  body.classList.toggle("styleBody");
 
   const key_unsplash = config.key_Unsplash;
 
@@ -239,7 +245,7 @@ const fetchWeatherData = () => {
     .then((data) => {
       //   console.log(data);
       body.style.backgroundImage = `url(${data.urls.regular})`;
-      body.classList.toggle("styleBody");
+      
     })
     .catch((error) => {
       console.error(
