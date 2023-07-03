@@ -43,6 +43,22 @@ const mean = (array) => {
   return result;
 };
 
+const meanTempPerDay = (dataList) => {
+  let temptab = [];
+  let DaysMeanTemp = [];
+  for (let j = 0; j < dataList.length - 1; j++) {
+    let day = convertTimeStamp(dataList[j].dt).slice(0, 2);
+    if (day != convertTimeStamp(dataList[j + 1].dt).slice(0, 2)) {
+      temptab.push(dataList[j].main.temp);
+      DaysMeanTemp.push(mean(temptab));
+      temptab = [];
+    } else {
+      temptab.push(dataList[j].main.temp);
+    }
+  }
+  return DaysMeanTemp;
+};
+
 const CalculMinTemperatures = (array) => {
   let min = array[0];
   for (i = 0; i < array.length; i++) {
@@ -54,7 +70,7 @@ const CalculMinTemperatures = (array) => {
 };
 // min temperatue over 5 days
 
-problème : pour j === dataList.length n'est pas pris en compte. A la dernière itération, des données sont exclues de dailyTemp et donc min temp
+// problème : pour j === dataList.length n'est pas pris en compte. A la dernière itération, des données sont exclues de dailyTemp et donc min temp
 const minTemperature = (dataList) => {
   let dailyTemp = [];
   let minTemp = [];
@@ -123,21 +139,6 @@ const maxTemperature = (dataList) => {
 // pour appliquer cette fonction à une autre donnée ilfaut
 // changer dataList[j].main.temp avec la donnée ciblée dataList[j].main.humidity
 //=> la fonction renvoie un table de 5 éléments avec les moyennes des données fournies
-const meanTempPerDay = (dataList) => {
-  let temptab = [];
-  let DaysMeanTemp = [];
-  for (let j = 0; j < dataList.length - 1; j++) {
-    let day = convertTimeStamp(dataList[j].dt).slice(0, 2);
-    if (day != convertTimeStamp(dataList[j + 1].dt).slice(0, 2)) {
-      temptab.push(dataList[j].main.temp);
-      DaysMeanTemp.push(mean(temptab));
-      temptab = [];
-    } else {
-      temptab.push(dataList[j].main.temp);
-    }
-  }
-  return DaysMeanTemp;
-};
 
 const removeCityCardDef = () => {
   cityCardDef = document.getElementById("cityCardDef");
@@ -283,7 +284,6 @@ const fetchWeatherData = () => {
               // -------------------------------> bug apres minuit : 6 jours en console.log (7p, 4*8p, 1p) (6p, 3*8, 2) (5p, 4*8, 3)
               let currentDay = convertTimeStamp(data.list[i].dt).slice(0, 2);
               let nextDay = convertTimeStamp(data.list[i + 1]?.dt).slice(0, 2);
-
               if (currentDay !== nextDay || i === data.list.length - 1) {
                 let dayOfWeek = getDayOfWeek(data.list[i].dt);
                 let description = data.list[i].weather[0].description;
