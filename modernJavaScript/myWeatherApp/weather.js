@@ -15,96 +15,20 @@ In the home page the user can enter the city of his/her choice (think of the rig
 On clicking the SUBMIT button or pressing ENTER the application will display the weather for the next 5 days
 The application must be responsive and mobile friendly */
 
-//////////////////////////////////////////////// FONCTIONS UTILES ///////////////////////////////
-
-import CalculMinTemperatures from "./calculator.js";
-
-const getDayOfWeek = (timestamp) => {
-  const date = new Date(timestamp * 1000);
-  const options = { weekday: "long" };
-  return date.toLocaleDateString("en-US", options);
-};
-
-const setId_InnerTxt = (IdName, name) => {
-  const elmt = document.getElementById(IdName);
-  // elmt.innerText = "";
-  elmt.innerText = name;
-};
-
-const getIconUrl = (iconCode) => {
-  return "https://openweathermap.org/img/wn/" + iconCode + "@2x.png";
-};
-
-const convertTimeStamp = (timeStamp) => {
-  let date = new Date(timeStamp * 1000);
-  return date.toLocaleDateString("en-US", {
-    month: "long",
-    weekday: "long",
-    year: "numeric",
-    day: "numeric",
-  });
-};
-
-// console.log(convertTimeStamp(1688223600));
-
-const minTemperature = (dataList) => {
-  let dailyTemp = [];
-  let minTemp = [];
-
-  for (let j = 0; j < dataList.length - 1; j++) {
-    let day = convertTimeStamp(dataList[j].dt).slice(0, 2);
-    if (day != convertTimeStamp(dataList[j + 1].dt).slice(0, 2)) {
-      dailyTemp.push(dataList[j].main.temp);
-      minTemp.push(CalculMinTemperatures(dailyTemp));
-      dailyTemp = [];
-    } else {
-      dailyTemp.push(dataList[j].main.temp);
-    }
-  }
-  return minTemp;
-};
-
-const calculMaxTemperatures = (array) => {
-  let max = array[0]; /// il faudrait en faire une focn
-  for (let i = 0; i < array.length; i++) {
-    if (array[i] > max) {
-      max = array[i];
-    }
-  }
-  return max;
-};
-// min temperatue over 5 days
-
-const maxTemperature = (dataList) => {
-  let dailyTemp = [];
-  let maxTemp = [];
-
-  for (let j = 0; j < dataList.length - 1; j++) {
-    let day = convertTimeStamp(dataList[j].dt).slice(0, 2);
-    if (day != convertTimeStamp(dataList[j + 1].dt).slice(0, 2)) {
-      dailyTemp.push(dataList[j].main.temp);
-      maxTemp.push(calculMaxTemperatures(dailyTemp));
-      dailyTemp = [];
-    } else {
-      dailyTemp.push(dataList[j].main.temp);
-    }
-  }
-  return maxTemp;
-};
-
-//=> la fonction renvoie un table de 5 éléments avec les moyennes des données fournies
-
-const removeCityCardDef = () => {
-  let cityCardDef = document.getElementById("cityCardDef");
-  cityCardDef.remove();
-};
-
-const body = document.querySelector("body");
+import {
+  CalculMinTemperatures,
+  minTemperature,
+  convertTimeStamp,
+  maxTemperature,
+  calculMaxTemperatures,
+} from "./calculator.js";
+import { removeCityCardDef } from "./removeCityCardDef.js";
+import { getDayOfWeek } from "./getDayOfWeek.js";
+import { setId_InnerTxt } from "./setId_InnerText.js";
 
 /////////////////////////////////////////////////// CODE ////////////////////////////////////////
 
-////////////////////////                  Ville par defaut                /////////////////////////
-
+const body = document.querySelector("body");
 var myKey = config.Key_openWeather;
 
 fetch(
