@@ -17,6 +17,8 @@ The application must be responsive and mobile friendly */
 
 //////////////////////////////////////////////// FONCTIONS UTILES ///////////////////////////////
 
+import CalculMinTemperatures from "./calculator.js";
+
 const getDayOfWeek = (timestamp) => {
   const date = new Date(timestamp * 1000);
   const options = { weekday: "long" };
@@ -45,42 +47,6 @@ const convertTimeStamp = (timeStamp) => {
 
 // console.log(convertTimeStamp(1688223600));
 
-const calculMean = (array) => {
-  let sum = 0;
-  let result = 0;
-  for (let i = 0; i < array.length; i++) {
-    sum += array[i];
-  }
-  result = sum / array.length;
-  return result;
-};
-
-const calculMeanTempPerDay = (dataList) => {
-  let temptab = [];
-  let DaysMeanTemp = [];
-  for (let j = 0; j < dataList.length - 1; j++) {
-    let day = convertTimeStamp(dataList[j].dt).slice(0, 2);
-    if (day != convertTimeStamp(dataList[j + 1].dt).slice(0, 2)) {
-      temptab.push(dataList[j].main.temp);
-      DaysMeanTemp.push(calculMean(temptab));
-      temptab = [];
-    } else {
-      temptab.push(dataList[j].main.temp);
-    }
-  }
-  return DaysMeanTemp;
-};
-
-const CalculMinTemperatures = (array) => {
-  let min = array[0];
-  for (i = 0; i < array.length; i++) {
-    if (array[i] < min) {
-      min = array[i];
-    }
-  }
-  return min;
-};
-
 const minTemperature = (dataList) => {
   let dailyTemp = [];
   let minTemp = [];
@@ -98,11 +64,9 @@ const minTemperature = (dataList) => {
   return minTemp;
 };
 
-
-
 const calculMaxTemperatures = (array) => {
   let max = array[0]; /// il faudrait en faire une focn
-  for (i = 0; i < array.length; i++) {
+  for (let i = 0; i < array.length; i++) {
     if (array[i] > max) {
       max = array[i];
     }
@@ -131,12 +95,11 @@ const maxTemperature = (dataList) => {
 //=> la fonction renvoie un table de 5 éléments avec les moyennes des données fournies
 
 const removeCityCardDef = () => {
-  cityCardDef = document.getElementById("cityCardDef");
+  let cityCardDef = document.getElementById("cityCardDef");
   cityCardDef.remove();
 };
 
 const body = document.querySelector("body");
-
 
 /////////////////////////////////////////////////// CODE ////////////////////////////////////////
 
@@ -207,8 +170,8 @@ const cityCard = document.getElementById("cityCard");
 
 inputDef.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
-      document.getElementById("forecasts").replaceChildren();
-      document.body.style.height = "fit-content";
+    document.getElementById("forecasts").replaceChildren();
+    document.body.style.height = "fit-content";
 
     fetchWeatherData();
     cityCard.style.display = "block";
