@@ -80,9 +80,7 @@ const CalculMinTemperatures = (array) => {
   }
   return min;
 };
-// min temperatue over 5 days
 
-// problème : pour j === dataList.length n'est pas pris en compte. A la dernière itération, des données sont exclues de dailyTemp et donc min temp
 const minTemperature = (dataList) => {
   let dailyTemp = [];
   let minTemp = [];
@@ -138,6 +136,8 @@ const removeCityCardDef = () => {
 };
 
 const body = document.querySelector("body");
+
+
 /////////////////////////////////////////////////// CODE ////////////////////////////////////////
 
 ////////////////////////                  Ville par defaut                /////////////////////////
@@ -266,15 +266,6 @@ const fetchWeatherData = () => {
 
             const days = [];
 
-            //---------> bugs avant minuit : plus que 4 jours. Nécessité de tout push si les dates sont différentes OU si on est arrivé à la fin des datas.
-
-            // for (let i = 0; i < data.list.length; i++) {
-            //   // -------------------------------> bug apres minuit : 6 jours en console.log (7p, 4*8p, 1p) (6p, 3*8, 2) (5p, 4*8, 3)
-            //   let currentDay = convertTimeStamp(data.list[i].dt).slice(0, 2);
-            //   let nextDay = convertTimeStamp(data.list[i + 1]?.dt).slice(0, 2);
-            //   if (currentDay !== nextDay || i === data.list.length - 1)
-
-            //
             for (let i = 0; i < data.list.length - 1; i++) {
               let currentDay = convertTimeStamp(data.list[i].dt).slice(0, 2);
               let nextDay = convertTimeStamp(data.list[i + 1]?.dt).slice(0, 2);
