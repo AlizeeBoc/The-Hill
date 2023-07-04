@@ -25,6 +25,7 @@ const getDayOfWeek = (timestamp) => {
 
 const setId_InnerTxt = (IdName, name) => {
   const elmt = document.getElementById(IdName);
+  // elmt.innerText = "";
   elmt.innerText = name;
 };
 
@@ -99,25 +100,7 @@ const minTemperature = (dataList) => {
   return minTemp;
 };
 
-// const minTemperature = (dataList) => {
-//   let dailyTemp = [];
-//   let minTemp = [];
 
-//   for (let j = 0; j < dataList.length; j++) {
-//     let day = convertTimeStamp(dataList[j].dt).slice(0, 2);
-//     if (
-//       day != convertTimeStamp(dataList[j + 1].dt).slice(0, 2) ||
-//       j === dataList.length - 1
-//     ) {
-//       dailyTemp.push(dataList[j].main.temp);
-//       minTemp.push(CalculMinTemperatures(dailyTemp));
-//       dailyTemp = [];
-//     } else {
-//       dailyTemp.push(dataList[j].main.temp);
-//     }
-//   }
-//   return minTemp;
-// };
 
 const calculMaxTemperatures = (array) => {
   let max = array[0]; /// il faudrait en faire une focn
@@ -224,20 +207,19 @@ const cityCard = document.getElementById("cityCard");
 
 inputDef.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
-    if (cityCard.classList.contains("oldCard")){
-      cityCard.remove()
-    }
+      document.getElementById("forecasts").replaceChildren();
+      document.body.style.height = "fit-content";
+
     fetchWeatherData();
     cityCard.style.display = "block";
-    cityCard.classList.add("oldCard")
+    cityCard.classList.add("oldCard");
   }
 });
 
 /////////////Ville entrée dans la barre de recherche/////////////////////////
 const fetchWeatherData = () => {
-  // removeCityCardDef()
   setTimeout(removeCityCardDef, 50);
-  body.classList.toggle("styleBody");
+  body.classList = "styleBody";
 
   const key_unsplash = config.key_Unsplash;
 
