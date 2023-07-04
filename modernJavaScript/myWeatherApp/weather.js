@@ -24,12 +24,27 @@ import {
 } from "./calculator.js";
 import { removeCityCardDef } from "./removeCityCardDef.js";
 import { getDayOfWeek } from "./getDayOfWeek.js";
-import { setId_InnerTxt } from "./setId_InnerText.js";
+import { set_Id_InnerTxt } from "./setId_InnerText.js";
+import { createForecasts } from "./createForecasts.js";
 
-/////////////////////////////////////////////////// CODE ////////////////////////////////////////
+/////////////////////////////////////////////////// CODE //////////////////////////////////////////////////////////////////
 
 const body = document.querySelector("body");
-var myKey = config.Key_openWeather;
+const inputDef = document.getElementById("inputDef");
+const cityCard = document.getElementById("cityCard");
+const input = document.querySelector(".input");
+const submitBtn = document.querySelector("#submitDef");
+const forecasts = document.getElementById("forecasts");
+
+const myKey = config.Key_openWeather;
+const key_unsplash = config.key_Unsplash;
+
+const unsplashUrl_BXL =
+  "https://api.unsplash.com/photos/random/?client_id=" +
+  key_unsplash +
+  "&query=Bruxelles";
+
+/////////////////////////////////////////////// Ville par défaut /////////////////////////////////////////////////////////
 
 fetch(
   `http://api.openweathermap.org/geo/1.0/direct?q=Brussels&limit=1&appid=` +
@@ -40,7 +55,6 @@ fetch(
     const lat = data[0].lat;
     const long = data[0].lon;
     // console.log(data);
-
 
     fetch(
       `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&units=metric&appid=` +
@@ -57,8 +71,8 @@ fetch(
         day.temperature = Math.round(data.list[0].main.temp);
         // temperatures a modifier
 
-        const cityNameDef = setId_InnerTxt("cityNameDef", day.name);
-        const dateDef = setId_InnerTxt(
+        const cityNameDef = set_Id_InnerTxt("cityNameDef", day.name);
+        const dateDef = set_Id_InnerTxt(
           "dateDef",
           day.dateTime.toLocaleString("en-US", {
             month: "long",
@@ -68,8 +82,8 @@ fetch(
           })
         );
 
-        const tempDef = setId_InnerTxt("tempDef", day.temperature + "°c");
-        const descriptionDef = setId_InnerTxt(
+        const tempDef = set_Id_InnerTxt("tempDef", day.temperature + "°c");
+        const descriptionDef = set_Id_InnerTxt(
           "descriptionDef",
           day.description
         );
@@ -88,11 +102,7 @@ fetch(
     );
   });
 
-/// EventListeners, clean la page (pour pouvoir afficher les données de la ville entrée, sans conflit)+ extraction des données météo  ///
-
-const inputDef = document.getElementById("inputDef");
-const input = document.getElementById("searchField");
-const cityCard = document.getElementById("cityCard");
+///////////////////////////////////////////////  Event Listener - keyPress  /////////////////////////////////////////////////////////
 
 inputDef.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
@@ -101,19 +111,17 @@ inputDef.addEventListener("keypress", (event) => {
 
     fetchWeatherData();
     cityCard.style.display = "block";
-    cityCard.classList.add("oldCard");
+    // cityCard.classList.add("oldCard");
   }
 });
 
-/////////////Ville entrée dans la barre de recherche/////////////////////////
+///////////////////////////////////////////////  Fetch datas de la ville recherchée  /////////////////////////////////////////////////////////
+
 const fetchWeatherData = () => {
   setTimeout(removeCityCardDef, 50);
   body.classList = "styleBody";
 
-  const key_unsplash = config.key_Unsplash;
-
-  let input = document.querySelector(".input");
-  let city = input.value;
+  const city = input.value;
 
   fetch(
     "https://api.unsplash.com/photos/random/?client_id=" +
@@ -153,15 +161,21 @@ const fetchWeatherData = () => {
             console.log(data);
             console.log(data.list);
 
+            ////////////////////////////  tableau days de day --> traitement des données a ne plus reproduire car objet day = données écrasées, non compilées?!  /////////////////////
+
             const days = [];
+            console.log(days);
 
             for (let i = 0; i < data.list.length - 1; i++) {
-              let currentDay = convertTimeStamp(data.list[i].dt).slice(0, 2);
-              let nextDay = convertTimeStamp(data.list[i + 1]?.dt).slice(0, 2);
+              const currentDay = convertTimeStamp(data.list[i].dt).slice(0, 2);
+              const nextDay = convertTimeStamp(data.list[i + 1]?.dt).slice(
+                0,
+                2
+              );
 
               if (currentDay !== nextDay) {
-                let dayOfWeek = getDayOfWeek(data.list[i].dt);
-                let description = data.list[i].weather[0].description;
+                const dayOfWeek = getDayOfWeek(data.list[i].dt);
+                const description = data.list[i].weather[0].description;
 
                 days.push({
                   nameDay: dayOfWeek,
@@ -174,17 +188,16 @@ const fetchWeatherData = () => {
               }
             }
 
-            console.log(days);
-            // console.log(calculcalculMeanTempPerDay(data.list));
-            console.log(minTemperature(data.list));
-            console.log(maxTemperature(data.list));
+            // // console.log(calculcalculMeanTempPerDay(data.list));
+            // console.log(minTemperature(data.list));
+            // console.log(maxTemperature(data.list));
 
             days.forEach((day, index) => {
               day.min = Math.round(minTemperature(data.list)[index]);
               day.max = Math.round(maxTemperature(data.list)[index]);
             });
 
-            setId_InnerTxt("cityName", input.value);
+            set_Id_InnerTxt("cityName", input.value);
 
             input.value = "";
 
@@ -198,63 +211,32 @@ const fetchWeatherData = () => {
               }
             );
 
-            setId_InnerTxt("date", newDate);
+            set_Id_InnerTxt("date", newDate);
 
-            const dataList = data.list;
+            set_Id_InnerTxt("temp", Math.round(data.list[0].main.temp) + "°c");
 
-            setId_InnerTxt("temp", Math.round(dataList[0].main.temp) + "°c");
+            set_Id_InnerTxt("description", data.list[0].weather[0].description);
 
-            setId_InnerTxt("description", dataList[0].weather[0].description);
-
-            let icon = document.getElementById("icon");
+            const icon = document.getElementById("icon");
             icon.src =
               "https://openweathermap.org/img/wn/" +
               data.list[0].weather[0].icon +
               "@2x.png";
 
             const minMax =
-              Math.round(minTemperature(dataList)[0]) +
+              Math.round(minTemperature(data.list)[0]) +
               "/" +
-              Math.round(maxTemperature(dataList)[0]) +
+              Math.round(maxTemperature(data.list)[0]) +
               "°c";
 
-            setId_InnerTxt("minMax", minMax);
+            set_Id_InnerTxt("minMax", minMax);
 
-            setId_InnerTxt("wind", dataList[0].wind.speed + " m/s");
-            setId_InnerTxt("humidity", dataList[0].main.humidity + " %");
-
-            const visibility = document.getElementById("visibility");
-            visibility.innerText = data.list[0].visibility / 1000 + " km";
-
-            const createForecasts = (forecast) => {
-              const forecasts = document.getElementById("forecasts");
-              const dailyForecast = document.createElement("div");
-              dailyForecast.setAttribute("class", "dailyForecast");
-
-              const dayNameForecast = document.createElement("p");
-              dayNameForecast.id = "dayNameForecast";
-              dayNameForecast.innerText = forecast.nameDay;
-
-              const iconForecast = document.createElement("img");
-              iconForecast.id = "iconForecast";
-              iconForecast.src = forecast.icon;
-
-              const tempForecast = document.createElement("div");
-              tempForecast.id = "tempForecast";
-
-              const minMaxForecast = document.createElement("p");
-              minMaxForecast.id = "minMaxForecast";
-              minMaxForecast.innerText =
-                forecast.min + "/" + forecast.max + "°c";
-
-              tempForecast.appendChild(minMaxForecast);
-
-              dailyForecast.append(dayNameForecast);
-              dailyForecast.append(iconForecast);
-              dailyForecast.append(tempForecast);
-
-              forecasts.append(dailyForecast);
-            };
+            set_Id_InnerTxt("wind", data.list[0].wind.speed + " m/s");
+            set_Id_InnerTxt("humidity", data.list[0].main.humidity + " %");
+            set_Id_InnerTxt(
+              "visibility",
+              data.list[0].visibility / 1000 + " km"
+            );
 
             days.slice(1).forEach((forecast) => {
               createForecasts(forecast);
@@ -264,27 +246,21 @@ const fetchWeatherData = () => {
     });
 };
 
-const submitBtn = document.querySelector("#submitDef");
 submitBtn.addEventListener("click", () => {
+  forecasts.replaceChildren();
+  document.body.style.height = "fit-content";
   fetchWeatherData();
-  // input.style.display = "block";
+
   cityCard.style.display = "block";
 });
 
-let unsplashKey = config.key_Unsplash;
-let unsplashUrl =
-  "https://api.unsplash.com/photos/random/?client_id=" +
-  unsplashKey +
-  "&query=Bruxelles";
+// const background = document.createElement("img");
+// body.append(background);
 
-let background = document.createElement("img");
-body.append(background);
-
-fetch(unsplashUrl)
+fetch(unsplashUrl_BXL)
   .then((response) => response.json())
   .then((data) => {
-    // console.log(data)
-    document.body.style.backgroundImage = `url(${data.urls.regular})`;
+    body.style.backgroundImage = `url(${data.urls.regular})`;
   })
   .catch((error) => {
     console.error(
@@ -307,6 +283,8 @@ fetch(unsplashUrl)
 //        });
 //      });
 // 3. json viewer extension
+// 4. Quand une condition est posée dans une boucle, passer toutes les étapes de l'itération en revue, attention ++ aux premier et dernier élément.
+// 5.
 
 // ////////////////////////////////////////////////////////////////////////// SOURCES ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
