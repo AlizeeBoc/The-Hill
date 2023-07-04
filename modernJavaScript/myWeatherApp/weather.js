@@ -1,7 +1,7 @@
 // to fix :
-// comment afficher les datas pertinentes? En itérant sur la liste, les données par jour s'écrasent jusqu'a la derniere. L'affichage de la description et de l'icone ne correspond qu'a la derniere donnée du jour j'imagine?
+// argh ... je crée des objets jours dont les données s'écrasent les une apres les autres non?
 // les minimums et max en fin de journée sont presqu'égaux car trop peu de datas pour établir une prévision fiable
-// j'ai oublié mes .catch((error) =>'
+// dafuck? .catch((error) manquants
 
 /* The Mission
 You have been sent abroad for a 10-month work mission. 
@@ -40,6 +40,8 @@ fetch(
     const lat = data[0].lat;
     const long = data[0].lon;
     // console.log(data);
+
+
     fetch(
       `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&units=metric&appid=` +
         myKey
